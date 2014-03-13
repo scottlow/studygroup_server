@@ -13,7 +13,7 @@ class University(models.Model):
 	name = models.CharField(max_length=100);
 
 class Course(models.Model):
-	uni_id = models.ForeignKey(University);
+	university = models.ForeignKey(University);
 	name = models.CharField(max_length=100)
 	start_date = models.DateField();
 	end_date = models.DateField();
