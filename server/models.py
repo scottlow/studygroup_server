@@ -8,3 +8,12 @@ from rest_framework.authtoken.models import Token
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+class University(models.Model):
+	name = models.CharField(max_length=100);
+
+class Course(models.Model):
+	uni_id = models.ForeignKey(University);
+	name = models.CharField(max_length=100)
+	start_date = models.DateField();
+	end_date = models.DateField();
