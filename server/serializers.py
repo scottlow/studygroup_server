@@ -1,13 +1,11 @@
-from django.contrib.auth.models import User, Group
 from models import Student
 from rest_framework import serializers
 from server.models import Course
 
-class StudentSerializer(serializers.Serializer):
-    id = serializers.Field() 
+class StudentSerializer(serializers.ModelSerializer):
     courses = serializers.RelatedField(many=True)
     class Meta:
-        model = User
+        model = Student
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
 
 class CourseSerializer(serializers.Serializer):
