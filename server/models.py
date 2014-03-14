@@ -23,7 +23,11 @@ class Course(models.Model):
         return self.name    
 
 class Student(AbstractUser):
-    courses = models.ManyToManyField(Course)  
-      
+    courses = models.ManyToManyField(Course)        
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
+
+@receiver(post_save, sender=get_user_model())
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
