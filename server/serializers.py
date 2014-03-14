@@ -1,13 +1,14 @@
 from django.contrib.auth.models import User, Group
+from models import Student
 from rest_framework import serializers
 from server.models import Course
 
-class StudentSerializer(serializers.HyperlinkedModelSerializer):
+class StudentSerializer(serializers.Serializer):
+    id = serializers.Field() 
     courses = serializers.RelatedField(many=True)
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
-        read_only_fields = ('username')
 
 class CourseSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)	
