@@ -27,7 +27,27 @@ class Student(AbstractUser):
     class Meta(AbstractUser.Meta):
         swappable = 'AUTH_USER_MODEL'
 
+class Location(models.Model):
+	lattitude = models.FloatField()
+	longitude = models.FloatField()
+	name = models.CharField(max_length=100)
+	room_number = models.IntegerField(null=True)
+	university = models.ForeignKey(University)
+	frequency = models.IntegerField()
+
+class Session(models.Model):
+	coordinator = models.ForeignKey(Student)
+	course = models.ForeignKey(Course)
+	lattitude = models.FloatField()
+	longitude = models.FloatField()
+	location = models.ForeignKey(Location)
+	attendees = models.ManyToManyField(Student)
+	start_time = models.DateTimeField()
+	end_time = models.DateTimeField()
+
+
 @receiver(post_save, sender=get_user_model())
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
