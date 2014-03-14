@@ -3,6 +3,7 @@ from server.serializers import StudentSerializer, CourseSerializer
 from rest_framework import permissions
 from server.models import Course, Student
 from rest_framework import generics
+from django.http import HttpResponse
 
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
@@ -21,3 +22,9 @@ class CourseList(generics.ListAPIView):
 
 class AddCourseView(generics.CreateAPIView):
     serializer_class = StudentSerializer
+
+    def post(self, request, *args, **kwargs):
+        print request.user.courses
+        print request.DATA
+
+        return HttpResponse(status=200)
