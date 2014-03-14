@@ -24,8 +24,6 @@ class Course(models.Model):
 
 class Student(AbstractUser):
     courses = models.ManyToManyField(Course)        
-    class Meta(AbstractUser.Meta):
-        swappable = 'AUTH_USER_MODEL'
 
 class Location(models.Model):
 	lattitude = models.FloatField()
@@ -44,10 +42,4 @@ class Session(models.Model):
 	attendees = models.ManyToManyField(Student)
 	start_time = models.DateTimeField()
 	end_time = models.DateTimeField()
-
-
-@receiver(post_save, sender=get_user_model())
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
 
