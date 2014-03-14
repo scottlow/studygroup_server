@@ -2,18 +2,17 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from server.models import Course
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class StudentSerializer(serializers.HyperlinkedModelSerializer):
+    courses = serializers.RelatedField(many=True)
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
+        read_only_fields = ('username')
 
 class CourseSerializer(serializers.Serializer):
-    pk = serializers.Field()  # Note: `Field` is an untyped read-only field.
-    university = serializers.Field()
-    name = serializers.CharField(max_length=100)
-    start_date = serializers.DateField()
-    end_date = serializers.DateField()
+    name = serializers.CharField(max_length=100)	
 
+# 	TODO: Implement this
     def restore_object(self, attrs, instance=None):
         """
         Create or update a new snippet instance, given a dictionary

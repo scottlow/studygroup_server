@@ -1,13 +1,17 @@
-from django.contrib.auth.models import User
 from rest_framework import viewsets
-from server.serializers import UserSerializer, CourseSerializer
+from server.serializers import StudentSerializer, CourseSerializer
 from rest_framework import permissions
-from server.models import Course
+from server.models import Course, Student
+from server.permissions import IsOwnerOrReadOnly
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer 
+class StudentViewSet(viewsets.ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = Student 
 
-class CourseViewSet(viewsets.ModelViewSet):
+class AddCourseView(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
     queryset = Course.objects.all()
     serializer_class = CourseSerializer 
+
+    def pre_save(self, obj):
+        obj.owner = self.request.user   
