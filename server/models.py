@@ -39,7 +39,7 @@ class Session(models.Model):
 	lattitude = models.FloatField()
 	longitude = models.FloatField()
 	location = models.ForeignKey(Location)
-	attendees = models.ManyToManyField(Student)
+	attendees = models.ManyToManyField(Student, related_name='attendees')
 	start_time = models.DateTimeField()
 	end_time = models.DateTimeField()
 
