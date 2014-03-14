@@ -11,3 +11,7 @@ class StudentViewSet(viewsets.ModelViewSet):
 class AddCourseView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated)
     serializer_class = StudentSerializer
+
+class AddCourseView(generics.CreateAPIView):
+    permission_classes = (permissions.IsAuthenticated)
+    serializer_class = StudentSerializer
