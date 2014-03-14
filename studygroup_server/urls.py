@@ -12,5 +12,6 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'),
     url(r'^courses/add', views.AddCourseView.as_view()), 
+    url(r'^register/', views.RegisterUserView.as_view()),     
     url('^courses/university/(?P<universityID>.+)/$', views.CourseList.as_view()),    
 )
