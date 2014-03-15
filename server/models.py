@@ -23,7 +23,12 @@ class Course(models.Model):
         return self.name    
 
 class Student(AbstractUser):
-    courses = models.ManyToManyField(Course)        
+    courses = models.ManyToManyField(Course)  
+
+@receiver(post_save, sender=Student)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)    
 
 class Location(models.Model):
 	lattitude = models.FloatField()
@@ -42,4 +47,3 @@ class Session(models.Model):
 	attendees = models.ManyToManyField(Student, related_name="session_attendees")
 	start_time = models.DateTimeField()
 	end_time = models.DateTimeField()
-
