@@ -30,14 +30,14 @@ class RegisterUserView(generics.CreateAPIView):
 
         return HttpResponse(status=200)
 
-class AddCourseView(generics.UpdateAPIView):
+class AddCourseView(generics.CreateAPIView):
     """
     This view provides an endpoint for users to
     add courses to their courses list.
     """        
     authentication_classes = (TokenAuthentication,)
 
-    def put(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         course_id = None
         try:
             course_id = request.DATA['course_id']
@@ -49,5 +49,31 @@ class AddCourseView(generics.UpdateAPIView):
         if course_to_add != None:
             request.user.courses.add(course_to_add)
             request.user.save()  
+        else:
+            HttpResponseServerError("Invalid course_id specified.")
 
         return HttpResponse("success")
+
+class RemoveCourseView(generics.CreateAPIView):
+    """
+    This view provides an endpoint for users to
+    remove a course from their courses list.
+    """        
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        course_id = None
+        try:
+            course_id = request.DATA['course_id']
+        except KeyError:
+            HttpResponseServerError("Malformed JSON data.")
+
+        course_to_add = Course.objects.get(pk=course_id)
+
+        if course_to_add != None:
+            request.user.courses.remove(course_to_add)
+            request.user.save() 
+        else:
+            HttpResponseServerError("Invalid course_id specified.")
+
+        return HttpResponse("success")        
