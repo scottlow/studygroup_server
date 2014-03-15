@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions, generics
-from server.serializers import StudentSerializer, CourseSerializer
-from server.models import Course, Student
+from server.serializers import StudentSerializer, CourseSerializer, UniversitySerializer
+from server.models import Course, Student, University
 from django.http import HttpResponse, HttpResponseServerError
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
@@ -78,3 +78,8 @@ class RemoveCourseView(generics.CreateAPIView):
             HttpResponseServerError("Invalid course_id specified.")
 
         return HttpResponse("success")        
+
+class UniversityView(generics.ListCreateAPIView):
+    permission_classes = (AllowAny,)    
+    queryset = University.objects.all()
+    serializer_class = UniversitySerializer

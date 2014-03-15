@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     url(r'^courses/remove', views.RemoveCourseView.as_view()),     
     url(r'^register/', views.RegisterUserView.as_view()),     
     url('^courses/university/(?P<universityID>.+)/$', views.CourseList.as_view()),    
+    url('^universities/list', views.UniversityView.as_view()),
 )
