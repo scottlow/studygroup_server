@@ -1,34 +1,28 @@
-from models import Student
 from rest_framework import serializers
-from server.models import Course
+import server.models
 
 class CourseSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=100)	
-
-# 	TODO: Implement this
-    def restore_object(self, attrs, instance=None):
-        """
-        Create or update a new snippet instance, given a dictionary
-        of deserialized field values.
-
-        Note that if we don't define this method, then deserializing
-        data will simply return a dictionary of items.
-        """
-        if instance:
-            # Update existing instance
-            instance.title = attrs.get('title', instance.title)
-            instance.code = attrs.get('code', instance.code)
-            instance.linenos = attrs.get('linenos', instance.linenos)
-            instance.language = attrs.get('language', instance.language)
-            instance.style = attrs.get('style', instance.style)
-            return instance
-
-        # Create new instance
-        return Course(**attrs)        
-
-class StudentSerializer(serializers.ModelSerializer):
-    courses = CourseSerializer(many=True)
     class Meta:
-        model = Student
+        model = server.models.Course
+        fields = ('id', 'university', 'name', 'start_date', 'end_date')
+     
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = server.models.Student
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
-        
+
+class UniversitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = server.models.University
+        fields = ('name',)
+
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = server.models.Location
+        fields = ('id', 'latitude', 'longitude', 'name', 'university' ,'room_number', 'frequency')
+
+class SessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = server.models.Session
+        fields = ('id', 'coordinator', 'latitude', 'longitude', 'course', 'location', 'attendees', 'start_time', 'end_time')
+

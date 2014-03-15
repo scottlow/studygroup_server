@@ -31,7 +31,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)    
 
 class Location(models.Model):
-	lattitude = models.FloatField()
+	latitude = models.FloatField()
 	longitude = models.FloatField()
 	name = models.CharField(max_length=100)
 	room_number = models.IntegerField(null=True)
@@ -41,7 +41,7 @@ class Location(models.Model):
 class Session(models.Model):
 	coordinator = models.ForeignKey(Student, related_name="session_coordinator")
 	course = models.ForeignKey(Course)
-	lattitude = models.FloatField()
+	latitude = models.FloatField()
 	longitude = models.FloatField()
 	location = models.ForeignKey(Location)
 	attendees = models.ManyToManyField(Student, related_name="session_attendees")

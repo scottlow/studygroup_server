@@ -69,10 +69,10 @@ class RemoveCourseView(generics.CreateAPIView):
         except KeyError:
             HttpResponseServerError("Malformed JSON data.")
 
-        course_to_add = Course.objects.get(pk=course_id)
+        course_to_remove = Course.objects.get(pk=course_id)
 
-        if course_to_add != None:
-            request.user.courses.remove(course_to_add)
+        if course_to_remove != None:
+            request.user.courses.remove(course_to_remove)
             request.user.save() 
         else:
             HttpResponseServerError("Invalid course_id specified.")
