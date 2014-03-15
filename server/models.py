@@ -34,12 +34,12 @@ class Location(models.Model):
 	frequency = models.IntegerField()
 
 class Session(models.Model):
-	coordinator = models.ForeignKey(Student)
+	coordinator = models.ForeignKey(Student, related_name="session_coordinator")
 	course = models.ForeignKey(Course)
 	lattitude = models.FloatField()
 	longitude = models.FloatField()
 	location = models.ForeignKey(Location)
-	attendees = models.ManyToManyField(Student, related_name='attendees')
+	attendees = models.ManyToManyField(Student, related_name="session_attendees")
 	start_time = models.DateTimeField()
 	end_time = models.DateTimeField()
 

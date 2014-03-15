@@ -3,7 +3,7 @@ from rest_framework import serializers
 from server.models import Course
 
 class StudentSerializer(serializers.ModelSerializer):
-    courses = serializers.RelatedField(many=True)
+    courses = CourseSerializer(many=True)
     class Meta:
         model = Student
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
