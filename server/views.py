@@ -6,6 +6,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
 
 class StudentViewSet(viewsets.ModelViewSet):
+    permission_classes = (AllowAny,)    
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
