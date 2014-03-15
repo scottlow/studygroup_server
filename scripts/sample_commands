@@ -1,0 +1,7 @@
+Get auth token for an already registered user:
+
+curl -X POST http://127.0.0.1:8000/verify_credentials/ -H "Content-Type: application/json" -d '{"username":"scottlow","password":"derp1"}'
+
+Register a user with the provided auth token for a course with the provided course_id
+
+curl -X POST http://127.0.0.1:8000/courses/add/ -H "Content-Type: application/json" -H "Authorization: Token 7dfe886e1f5ef5f8a554f15c211cfc132346b398" -d '{"course_id":"1"}'

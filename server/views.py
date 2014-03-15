@@ -26,8 +26,7 @@ class RegisterUserView(generics.CreateAPIView):
     to register.
     """    
     permission_classes = (AllowAny,)    
-    def post(self, request, *args, **kwargs):
-        print request.DATA
+    def post(self, request, *args, **kwargs):          
 
         return HttpResponse(status=200)
 
@@ -39,11 +38,19 @@ class AddCourseView(generics.CreateAPIView):
     authentication_classes = (TokenAuthentication,)
 
     def post(self, request, *args, **kwargs):
-        # json_data = simplejson.loads(request.DATA)
-        # try:
-        #     course_id = json_data['course_id']
-        # except KeyError:
-        #     HttpResponseServerError("Malformed JSON data.")
-        print request.DATA
+        course_id = None
+        try:
+            print request.DATA
+            course_id = request.DATA['course_id']
+        except KeyError:
+            HttpResponseServerError("Malformed JSON data.")
+
+        print course_id
+
+        course_to_add = Course.objects.get(pk=course_id)
+
+        if course_to_add != None:
+            request.user.courses.add(course_to_add)
+            request.user.save()  
 
         return HttpResponse("success")

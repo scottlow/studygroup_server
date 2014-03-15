@@ -2,12 +2,6 @@ from models import Student
 from rest_framework import serializers
 from server.models import Course
 
-class StudentSerializer(serializers.ModelSerializer):
-    courses = CourseSerializer(many=True)
-    class Meta:
-        model = Student
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
-
 class CourseSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)	
 
@@ -31,3 +25,10 @@ class CourseSerializer(serializers.Serializer):
 
         # Create new instance
         return Course(**attrs)        
+
+class StudentSerializer(serializers.ModelSerializer):
+    courses = CourseSerializer(many=True)
+    class Meta:
+        model = Student
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
+        
