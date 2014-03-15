@@ -30,22 +30,19 @@ class RegisterUserView(generics.CreateAPIView):
 
         return HttpResponse(status=200)
 
-class AddCourseView(generics.CreateAPIView):
+class AddCourseView(generics.UpdateAPIView):
     """
     This view provides an endpoint for users to
     add courses to their courses list.
     """        
     authentication_classes = (TokenAuthentication,)
 
-    def post(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         course_id = None
         try:
-            print request.DATA
             course_id = request.DATA['course_id']
         except KeyError:
             HttpResponseServerError("Malformed JSON data.")
-
-        print course_id
 
         course_to_add = Course.objects.get(pk=course_id)
 
