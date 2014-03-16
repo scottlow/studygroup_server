@@ -45,10 +45,16 @@ class RegisterUserView(generics.CreateAPIView):
             token, created = Token.objects.get_or_create(user=student)
             return Response(data={'token':token.key}, status=200)
         else:
-            header = {"Access-Control-Expose-Headers": "Error-Message"}
+            header = {"Access-Control-Expose-Headers": "Error-Message, Error-Type"}
+            print serializer.errors
             errors = serializer.errors["non_field_errors"]
             if errors:
-                header["Error-Message"] = errors[0]
+                if errors[0] == "username":
+                    header["Error-Type"] = errors[0]
+                    header["Error-Message"] = "Username {0} already exists".format(serializer.init_data['username'])                  
+                elif errors[0] == "email":
+                    header['Error-Type'] = errors[0]
+                    header["Error-Message"] = "Email {0} already exists".format(serializer.init_data['email'])
             return Response(headers=header, status=400)
 
 class AddCourseView(generics.CreateAPIView):
