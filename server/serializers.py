@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.core.exceptions import ValidationError
 import server.models
 
 class CourseSerializer(serializers.Serializer):
@@ -14,7 +15,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.University
-        fields = ('name',)
+        fields = ('name','latitude', 'longitude',)
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,4 +26,20 @@ class SessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.Session
         fields = ('id', 'coordinator', 'latitude', 'longitude', 'course', 'location', 'attendees', 'start_time', 'end_time')
+
+class StudentRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = server.models.Student
+        fields = ('id', 'username', 'password', 'email')
+
+    def validate(self, attrs):
+        """
+        Ensure username and email don't already exist in the database
+        """
+        print "hi"
+        if server.models.Student.objects.filter(username=attrs['username']).exists():
+            "throw it"
+            raise ValidationError("Username {0} already exists in the database".format(attrs['username']))
+        else:
+            return attrs
 

@@ -1,9 +1,13 @@
 from rest_framework import viewsets, permissions, generics
-from server.serializers import StudentSerializer, CourseSerializer, UniversitySerializer
+from rest_framework.response import Response
+from server.serializers import StudentSerializer, CourseSerializer, UniversitySerializer, StudentRegisterSerializer
 from server.models import Course, Student, University
 from django.http import HttpResponse, HttpResponseServerError
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.views import obtain_auth_token, Token
+from django.core.exceptions import ValidationError
+
 
 class StudentViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)    
@@ -16,7 +20,7 @@ class CourseList(generics.ListAPIView):
     a particular university id
     """         
     serializer_class = CourseSerializer
-
+    permission_classes = (AllowAny,)
     def get_queryset(self):
         uni_id = self.kwargs['universityID']
         return Course.objects.filter(university__pk=uni_id) 
@@ -26,10 +30,22 @@ class RegisterUserView(generics.CreateAPIView):
     This view provides an endpoint for new users
     to register.
     """    
-    permission_classes = (AllowAny,)    
-    def post(self, request, *args, **kwargs):          
+    permission_classes = (AllowAny,)  
 
-        return HttpResponse(status=200)
+    def post(self, request, *args, **kwargs):          
+        serializer = StudentRegisterSerializer(data=request.DATA)
+        if serializer.is_valid():
+            student = Student.objects.create_user(
+                username=serializer.init_data["username"],
+                password=serializer.init_data["password"],
+                email=serializer.init_data["email"],
+            )
+            student.first_name = serializer.init_data['name']
+            student.save()
+            token, created = Token.objects.get_or_create(user=student)
+            return Response(data={'token':token.key}, status=200)
+        else:
+            return Response(data=serializer.errors, status=401)
 
 class AddCourseView(generics.CreateAPIView):
     """
