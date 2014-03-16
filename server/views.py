@@ -45,7 +45,7 @@ class RegisterUserView(generics.CreateAPIView):
             token, created = Token.objects.get_or_create(user=student)
             return Response(data={'token':token.key}, status=200)
         else:
-            header = {}
+            header = {"Access-Control-Expose-Headers": "Error-Message"}
             errors = serializer.errors["non_field_errors"]
             if errors:
                 header["Error-Message"] = errors[0]
