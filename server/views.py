@@ -45,7 +45,11 @@ class RegisterUserView(generics.CreateAPIView):
             token, created = Token.objects.get_or_create(user=student)
             return Response(data={'token':token.key}, status=200)
         else:
-            return Response(data=serializer.errors, status=401)
+            header = {}
+            errors = serializer.errors["non_field_errors"]
+            if errors:
+                header["Error-Message"] = errors[0]
+            return Response(headers=header, status=400)
 
 class AddCourseView(generics.CreateAPIView):
     """
