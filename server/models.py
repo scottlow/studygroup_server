@@ -7,8 +7,8 @@ from rest_framework.authtoken.models import Token
 
 class University(models.Model):
     name = models.CharField(max_length=100);
-    latitude = models.IntegerField()
-    longitude = models.IntegerField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
 
 class Course(models.Model):
     university = models.ForeignKey(University)
