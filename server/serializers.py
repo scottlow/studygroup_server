@@ -40,7 +40,6 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
             raise ValidationError("username")
         elif server.models.Student.objects.filter(email=attrs["email"]).exists():
             raise ValidationError("email")
-            raise ValidationError("Email {0} already exists".format(attrs['email']))
         else:
             return attrs
 

@@ -46,7 +46,6 @@ class RegisterUserView(generics.CreateAPIView):
             return Response(data={'token':token.key}, status=200)
         else:
             header = {"Access-Control-Expose-Headers": "Error-Message, Error-Type"}
-            print serializer.errors
             errors = serializer.errors["non_field_errors"]
             if errors:
                 if errors[0] == "username":
