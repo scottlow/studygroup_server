@@ -14,6 +14,19 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
+class StudentProfileView(generics.ListAPIView):
+    """
+    A view that will return a student's information given the correct
+    authentication token
+    Returns:
+    """
+    serializer_class = StudentSerializer
+    authentication_classes = (TokenAuthentication,)
+
+    def get(self, request, *ars, **kwargs):
+        serializer = StudentSerializer(Student.objects.get(pk=request.user.id))
+        return Response(serializer.data)
+
 class CourseList(generics.ListAPIView):
     """
     This view will return a list of all the courses for
