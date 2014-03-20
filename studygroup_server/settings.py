@@ -47,7 +47,6 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         ),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
-    'PAGINATE_BY': 10,    
     'TEST_REQUEST_DEFAULT_FORMAT' : 'json',
     'TEST_REQUEST_RENDERER_CLASSES' : (
         'rest_framework.renderers.JSNORenderer',
