@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.core.exceptions import ValidationError
 import server.models
 
-class CourseSerializer(serializers.Serializer):
+class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.Course
         fields = ('id', 'university', 'name', 'start_date', 'end_date')
