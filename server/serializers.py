@@ -8,6 +8,7 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'start_date', 'end_date')
      
 class StudentSerializer(serializers.ModelSerializer):
+    courses = CourseSerializer(many=True)
     class Meta:
         model = server.models.Student
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
