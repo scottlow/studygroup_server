@@ -20,7 +20,8 @@ class Course(models.Model):
         return self.name    
 
 class Student(AbstractUser):
-    courses = models.ManyToManyField(Course)  
+    courses = models.ManyToManyField(Course)
+    university = models.ForeignKey(University, related_name="university") 
 
 @receiver(post_save, sender=Student)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

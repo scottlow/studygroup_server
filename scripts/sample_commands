@@ -9,3 +9,5 @@ curl -X POST http://127.0.0.1:8000/courses/add/ -H "Content-Type: application/js
 Remove the course with course_id from authenticated user's courses list.
 
 curl -X POST http://127.0.0.1:8000/courses/remove/ -H "Content-Type: application/json" -H "Authorization: Token 7dfe886e1f5ef5f8a554f15c211cfc132346b398" -d '{"course_id":"1"}'
+
+curl -X GET http://127.0.0.1:8000/users/profile -H "Content-Type: application/json" -H "Authorization: Token 898619df6d6463767d4124ee621cab402e873cfd"

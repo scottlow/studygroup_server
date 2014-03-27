@@ -60,8 +60,9 @@ class RegisterUserView(generics.CreateAPIView):
                 username=serializer.init_data["username"],
                 password=serializer.init_data["password"],
                 email=serializer.init_data["email"],
+                university=University.objects.get(id=serializer.init_data['university']),
             )
-            student.first_name = serializer.init_data['name']
+            student.first_name = serializer.init_data['name']          
             student.save()
             token, created = Token.objects.get_or_create(user=student)
             return Response(data={'token':token.key}, status=200)

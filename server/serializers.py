@@ -6,17 +6,18 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.Course
         fields = ('id', 'name', 'start_date', 'end_date')
-     
-class StudentSerializer(serializers.ModelSerializer):
-    courses = CourseSerializer(many=True)
-    class Meta:
-        model = server.models.Student
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses')
 
 class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.University
         fields = ('id', 'name','latitude', 'longitude',)
+
+class StudentSerializer(serializers.ModelSerializer):
+    courses = CourseSerializer(many=True)
+    university = UniversitySerializer(many=False)
+    class Meta:
+        model = server.models.Student
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses', 'university')        
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
