@@ -41,7 +41,7 @@ for j in range(0, len(course_vals)):
 
 	for title in titles:
 		c = title.find('a').string.split('-')
-		title_text.append([c[2].strip(), c[0].strip(), c[3].strip()])
+		title_text.append([c[2].strip(), c[0].strip().title(), c[3].strip()])
 
 	big_data_table = soup.find(class_='datadisplaytable')
 	data_tables = big_data_table.find_all(class_='datadisplaytable')
