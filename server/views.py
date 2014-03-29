@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions, generics
 from rest_framework.response import Response
-from server.models import Course, Student, University, Session
+from server.models import Course, Student, University, Session, Location
 from django.http import HttpResponse, HttpResponseServerError
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
@@ -127,9 +127,17 @@ class RemoveCourseView(generics.CreateAPIView):
         return HttpResponse("success")        
 
 class UniversityView(generics.ListCreateAPIView):
-    permission_classes = (AllowAny,)    
+    permission_classes = (TokenAuthentication,)    
     queryset = University.objects.all()
     serializer_class = server.serializers.UniversitySerializer
+
+class UniversityLocationsView(generics.ListAPIView):
+    permission_classes = (AllowAny,)    
+    serializer_class = server.serializers.LocationSerializer
+
+    def get_queryset(self):
+        uni_id = self.kwargs['universityID']
+        return Location.objects.filter(university__pk=uni_id)    
 
 class SessionPerCourseView(generics.ListAPIView):
     """
