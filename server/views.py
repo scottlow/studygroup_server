@@ -127,7 +127,7 @@ class RemoveCourseView(generics.CreateAPIView):
         return HttpResponse("success")        
 
 class UniversityView(generics.ListCreateAPIView):
-    permission_classes = (TokenAuthentication,)    
+    permission_classes = (AllowAny,)    
     queryset = University.objects.all()
     serializer_class = server.serializers.UniversitySerializer
 
