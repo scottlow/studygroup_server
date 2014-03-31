@@ -160,3 +160,17 @@ class SessionPerCourseView(generics.ListAPIView):
         course_ids = self.request.GET.getlist('id')
         print course_ids
         return Session.objects.filter(course__in=course_ids)
+
+class SessionByUniversityView(generics.ListAPIView):
+    """
+    GET
+    Returns a list of sessions based on the university it belongs to. 
+    """
+    permission_classes = (AllowAny,)
+    serializer_class = server.serializers.SessionSerializer
+
+    def get_queryset(self):
+        uni_id = self.kwargs['universityID']
+        return Session.objects.filter(
+            course__in=[e.id for e in Course.objects.filter(university__pk=uni_id)]
+        )  
