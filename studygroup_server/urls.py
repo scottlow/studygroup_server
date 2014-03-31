@@ -19,5 +19,7 @@ urlpatterns = patterns('',
     url(r'^locations/university/(?P<universityID>.+)/?$', views.UniversityLocationsView.as_view()),     
     url(r'^users/profile/?', views.StudentProfileView.as_view()),
     url(r'^sessions/courses/', views.SessionPerCourseView.as_view()),    
-    url(r'^sessions/university/(?P<universityID>.+)/?$', views.SessionByUniversityView.as_view()),    
+    url(r'^sessions/create/?$', views.SessionCreateView.as_view()),
+    url(r'^sessions/university/(?P<universityID>.+)/?$', views.SessionByUniversityView.as_view()),
 )
+>>>>>>> 14bc5452a767f21f6a00767e8e8643b151c806fb

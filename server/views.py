@@ -173,4 +173,38 @@ class SessionByUniversityView(generics.ListAPIView):
         uni_id = self.kwargs['universityID']
         return Session.objects.filter(
             course__in=[e.id for e in Course.objects.filter(university__pk=uni_id)]
-        )  
+        )
+
+
+class SessionCreateView(generics.CreateAPIView):
+    """ Creates a new session.
+
+    Given the IDs of coordinator, course_id, location, and the start & end
+    times, creates a new session.
+    """
+
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = server.serializers.SessionSerializer
+
+    def post(self, request, *args, **kwargs):
+        try:
+            location_id = request.DATA['location']
+        except KeyError:
+            return HttpResponseServerError("Location ID missing.")
+
+        location = Location.objects.get(pk=location_id)
+
+        # Need to inject data before validating because these are not given by
+        # client
+        request.DATA['latitude'] = location.latitude
+        request.DATA['longitude'] = location.longitude
+
+        serializer = self.serializer_class(data=request.DATA)
+
+        if serializer.is_valid():
+            location.frequency += 1
+            location.save()
+            serializer.save()
+            return HttpResponse("Success.")
+        else:
+            return HttpResponseServerError("Malformed JSON data.")
