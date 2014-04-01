@@ -9,6 +9,7 @@ Example:
 
 from collections import namedtuple
 import csv
+from difflib import SequenceMatcher
 from django.core.management.base import BaseCommand, CommandError
 import json
 import os
@@ -24,8 +25,8 @@ DOMINO_URL = "http://express.dominos.ca/site-locator/site/120/buildings"
 # API information: https://developers.google.com/maps/documentation/geocoding/
 GOOGLE_API_URL = "http://maps.googleapis.com/maps/api/geocode/json?address={}&sensor=false"
 # Use university and city info when querying Geocode API for better accuracy.
-UNIV_NAME = "University of Victoria"
-CITY = "Victoria, BC"
+UNIV_NAME = " University of Victoria"
+CITY = " Victoria, BC"
 
 
 class Command(BaseCommand):
@@ -148,13 +149,13 @@ class Command(BaseCommand):
 
             formatted_addr = geocode_info['results'][0]['formatted_address'] \
                                 .encode("utf-8")
-            self.stdout.write("Name: %s" % str(name))
-            self.stdout.write("\tAddress from Geocode API: %s"
-                                % str(formatted_addr))
 
             lat, lng = None, None
             for match in geocode_info['results']:
-                if name in match['formatted_address']:
+                # Fuzzy string matching
+                full_name = name + UNIV_NAME + CITY
+                if SequenceMatcher(None, match['formatted_address'],
+                                   full_name).quick_ratio() > 0.7:
                     location = match['geometry']['location']
                     lat, lng = location['lat'], location['lng']
                     break
