@@ -175,6 +175,27 @@ class SessionByUniversityView(generics.ListAPIView):
             course__in=[e.id for e in Course.objects.filter(university__pk=uni_id)]
         )
 
+class SessionHostingView(generics.ListAPIView):
+    """
+    GET
+    Returns a list of sessions where the authenticated user is the coordinator. 
+    """
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = server.serializers.SessionSerializer
+
+    def get_queryset(self):
+        return Session.objects.filter(coordinator__pk=self.request.user.id)
+
+class SessionAttendingView(generics.ListAPIView):
+    """
+    GET
+    Returns a list of sessions that the authenticated user is attending
+    """
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = server.serializers.SessionSerializer
+
+    def get_queryset(self):
+        return Session.objects.filter(attendees=self.request.user)
 
 class SessionCreateView(generics.CreateAPIView):
     """ Creates a new session.
