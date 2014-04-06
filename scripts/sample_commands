@@ -1,17 +1,31 @@
+=====================       AUTH        =====================
+
 Get auth token for an already registered user:
 
-curl -X POST http://127.0.0.1:8000/verify_credentials/ -H "Content-Type: application/json" -d '{"username":"scottlow","password":"derp1"}'
+    curl -X POST http://127.0.0.1:8000/verify_credentials/ -H "Content-Type: application/json" -d '{"username":"scottlow","password":"derp1"}'
+
+=====================      COURSES      =====================
 
 Add the course with course_id to authenticated user's courses list.
 
-curl -X POST http://127.0.0.1:8000/courses/add/ -H "Content-Type: application/json" -H "Authorization: Token 7dfe886e1f5ef5f8a554f15c211cfc132346b398" -d '{"course_id":"1"}'
+    curl -X POST http://127.0.0.1:8000/courses/add/ -H "Content-Type: application/json" -H "Authorization: Token 7dfe886e1f5ef5f8a554f15c211cfc132346b398" -d '{"course_id":"1"}'
 
 Remove the course with course_id from authenticated user's courses list.
 
-curl -X POST http://127.0.0.1:8000/courses/remove/ -H "Content-Type: application/json" -H "Authorization: Token 7dfe886e1f5ef5f8a554f15c211cfc132346b398" -d '{"course_id":"1"}'
+    curl -X POST http://127.0.0.1:8000/courses/remove/ -H "Content-Type: application/json" -H "Authorization: Token 7dfe886e1f5ef5f8a554f15c211cfc132346b398" -d '{"course_id":"1"}'
 
-curl -X GET http://127.0.0.1:8000/users/profile -H "Content-Type: application/json" -H "Authorization: Token 898619df6d6463767d4124ee621cab402e873cfd"
+    curl -X GET http://127.0.0.1:8000/users/profile -H "Content-Type: application/json" -H "Authorization: Token 898619df6d6463767d4124ee621cab402e873cfd"
+
+=====================     SESSIONS      =====================
 
 Add a session with coordinator 'derp'.
 
-curl -X POST http://127.0.0.1:8000/sessions/create/ -H "Content-Type: application/json" -H "Authorization: Token 66519d40a13142492b1d68b4d9bb314552ace272" -d '{"course": 3, "location": 1, "start_time": "2012-01-01T00:00:00Z", "end_time": "2013-01-01T00:00:00", "coordinator": 2}'
+    curl -X POST http://127.0.0.1:8000/sessions/create/ -H "Content-Type: application/json; indent=4" -H "Authorization: Token a0535c73d2d42b017211af02c55d7fbc6bbc6eb4" -d '{"course": 3, "location": 1, "start_time": "2012-01-01T00:00:00Z", "end_time": "2013-01-01T00:00:00", "coordinator": 2}'
+
+Get a session based on a course ID.
+
+    curl -X GET http://127.0.0.1:8000/sessions/courses/?id=3 -H 'Accept: application/json; indent=4' -H 'Content-Type: application/json' -H 'Authorization: Token a0535c73d2d42b017211af02c55d7fbc6bbc6eb4'
+
+Edit an existing session. (Editing latitude for example.)
+
+    curl -X PATCH http://127.0.0.1:8000/sessions/edit/ -H 'Accept: application/json; indent=4' -H 'Content-Type: application/json' -H 'Authorization: Token a0535c73d2d42b017211af02c55d7fbc6bbc6eb4' -d '{"id": 4, "latitude": 48.4660400}'

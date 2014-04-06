@@ -1,11 +1,12 @@
-from rest_framework import viewsets, permissions, generics
+from rest_framework import generics, status, viewsets, mixins
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from server.models import Course, Student, University, Session, Location
-from django.http import HttpResponse, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseServerError, Http404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.views import obtain_auth_token, Token
-from django.core.exceptions import ValidationError
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 import server.serializers
 
@@ -15,24 +16,28 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = server.serializers.StudentSerializer
 
-class StudentProfileView(generics.ListAPIView):
-    """
-    A view that will return a student's information given the correct
-    authentication token
-    Returns as JSON:
+
+class StudentProfileView(generics.RetrieveUpdateAPIView):
+    """Retrieves or updates the current student's info given correct token.
+
+    Retrieve returns as JSON:
     {
         "id": <id>,
         "username": <username>,
         "email": <email>,
         "first_name": <first_name>,
         "last_name": <last_name>,
-        "courses": []
+        "courses": [<courses>],
+        "university": <university>
     }
     """
+
     serializer_class = server.serializers.StudentSerializer
     authentication_classes = (TokenAuthentication,)
-    def get_queryset(self):
-        return Student.objects.filter(pk=self.request.user.id)
+
+    def get_object(self):
+        return self.request.user
+
 
 class CourseList(generics.ListAPIView):
     """
@@ -208,24 +213,51 @@ class SessionCreateView(generics.CreateAPIView):
     serializer_class = server.serializers.SessionSerializer
 
     def post(self, request, *args, **kwargs):
-        try:
-            location_id = request.DATA['location']
-        except KeyError:
-            return HttpResponseServerError("Location ID missing.")
+        if 'location' not in request.DATA:
+            return Response("Location ID Missing.",
+                            status=status.HTTP_400_BAD_REQUEST)
 
-        location = Location.objects.get(pk=location_id)
-
+        location = Location.objects.get(pk=request.DATA['location'])
         # Need to inject data before validating because these are not given by
         # client
         request.DATA['latitude'] = location.latitude
         request.DATA['longitude'] = location.longitude
 
-        serializer = self.serializer_class(data=request.DATA)
+        serializer = self.get_serializer(data=request.DATA)
 
         if serializer.is_valid():
             location.frequency += 1
             location.save()
             serializer.save()
-            return HttpResponse("Success.")
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return HttpResponseServerError("Malformed JSON data.")
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+
+class SessionUpdateView(mixins.UpdateModelMixin, GenericAPIView):
+    """ PATCH. Updates a session given its ID in the database.
+
+    Returns {"detail": "Not found"} if no session with that ID exists,
+    and updates the session if it exists in the database.
+
+    ** Did not use generics.UpdateAPIView because it seems silly to be able to
+    create new sessions with PUT when we already have SessionCreateView for
+    that.
+    """
+
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = server.serializers.SessionSerializer
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def get_object(self):
+        if 'id' in self.request.DATA:
+            session_id = self.request.DATA['id']
+            try:
+                return Session.objects.get(pk=session_id)
+            except ObjectDoesNotExist:
+                logger.debug("Tried to update Session with id {}, but could "
+                             "not find it.".format(session_id))
+        raise Http404
