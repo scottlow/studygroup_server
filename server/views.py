@@ -159,7 +159,7 @@ class SessionPerCourseView(generics.ListAPIView):
     """
 
     permission_classes = (AllowAny,)
-    serializer_class = server.serializers.SessionSerializer
+    serializer_class = server.serializers.SessionViewSerializer
 
     def get_queryset(self):
         course_ids = self.request.GET.getlist('id')
@@ -172,7 +172,7 @@ class SessionByUniversityView(generics.ListAPIView):
     Returns a list of sessions based on the university it belongs to. 
     """
     permission_classes = (AllowAny,)
-    serializer_class = server.serializers.SessionSerializer
+    serializer_class = server.serializers.SessionViewSerializer
 
     def get_queryset(self):
         uni_id = self.kwargs['universityID']
@@ -186,7 +186,7 @@ class SessionHostingView(generics.ListAPIView):
     Returns a list of sessions where the authenticated user is the coordinator. 
     """
     authentication_classes = (TokenAuthentication,)
-    serializer_class = server.serializers.SessionSerializer
+    serializer_class = server.serializers.SessionViewSerializer
 
     def get_queryset(self):
         return Session.objects.filter(coordinator__pk=self.request.user.id)
@@ -197,7 +197,7 @@ class SessionAttendingView(generics.ListAPIView):
     Returns a list of sessions that the authenticated user is attending
     """
     authentication_classes = (TokenAuthentication,)
-    serializer_class = server.serializers.SessionSerializer
+    serializer_class = server.serializers.SessionViewSerializer
 
     def get_queryset(self):
         return Session.objects.filter(attendees=self.request.user)
