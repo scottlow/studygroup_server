@@ -159,7 +159,7 @@ class SessionPerCourseView(generics.ListAPIView):
     """
 
     permission_classes = (AllowAny,)
-    serializer_class = server.serializers.SessionSerializer
+    serializer_class = server.serializers.onCampusSessionSerializer
 
     def get_queryset(self):
         course_ids = self.request.GET.getlist('id')
@@ -172,7 +172,7 @@ class SessionByUniversityView(generics.ListAPIView):
     Returns a list of sessions based on the university it belongs to. 
     """
     permission_classes = (AllowAny,)
-    serializer_class = server.serializers.SessionSerializer
+    serializer_class = server.serializers.onCampusSessionSerializer
 
     def get_queryset(self):
         uni_id = self.kwargs['universityID']
@@ -189,7 +189,7 @@ class SessionCreateView(generics.CreateAPIView):
     """
 
     authentication_classes = (TokenAuthentication,)
-    serializer_class = server.serializers.SessionSerializer
+    serializer_class = server.serializers.onCampusSessionSerializer
 
     def post(self, request, *args, **kwargs):
         if 'location' not in request.DATA:
@@ -226,7 +226,7 @@ class SessionUpdateView(mixins.UpdateModelMixin, GenericAPIView):
     """
 
     authentication_classes = (TokenAuthentication,)
-    serializer_class = server.serializers.SessionSerializer
+    serializer_class = server.serializers.onCampusSessionSerializer
 
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)

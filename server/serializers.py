@@ -32,12 +32,13 @@ class MinimalStudentSerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.Location
-        fields = ('id', 'latitude', 'longitude', 'name', 'university' ,'room_number', 'frequency')
+        fields = ('id', 'latitude', 'longitude', 'name', 'university', 'frequency')
 
-class SessionSerializer(serializers.ModelSerializer):
+class onCampusSessionSerializer(serializers.ModelSerializer):
+    location = LocationSerializer(many = False)
     class Meta:
-        model = server.models.Session
-        fields = ('id', 'coordinator', 'latitude', 'longitude', 'course', 'location', 'attendees', 'start_time', 'end_time')
+        model = server.models.onCampusSession
+        fields = ('id', 'coordinator', 'course', 'location', 'attendees', 'start_time', 'end_time', 'room_number')
 
 class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:
