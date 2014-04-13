@@ -35,7 +35,6 @@ class LocationSerializer(serializers.ModelSerializer):
         fields = ('id', 'latitude', 'longitude', 'name', 'university', 'frequency')
 
 class onCampusSessionSerializer(serializers.ModelSerializer):
-    location = LocationSerializer(many = False)
     class Meta:
         model = server.models.onCampusSession
         fields = ('id', 'coordinator', 'course', 'location', 'attendees', 'start_time', 'end_time', 'room_number')

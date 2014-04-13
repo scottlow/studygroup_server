@@ -101,7 +101,7 @@ class Command(BaseCommand):
             name, lat, lng = tuple(line)
 
             location = Location(name=name, latitude=float(lat),
-                                longitude=float(lng), university=uvic)
+                                longitude=float(lng), university=uvic, frequency=0)
             location.save()
             count += 1
         self.stdout.write("Wrote %d entries to the database." % count)

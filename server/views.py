@@ -1,7 +1,7 @@
 from rest_framework import generics, status, viewsets, mixins
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from server.models import Course, Student, University, Session, Location
+from server.models import Course, Student, University, Session, Location, onCampusSession
 from django.http import HttpResponse, HttpResponseServerError, Http404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
@@ -164,7 +164,7 @@ class SessionPerCourseView(generics.ListAPIView):
     def get_queryset(self):
         course_ids = self.request.GET.getlist('id')
         print course_ids
-        return Session.objects.filter(course__in=course_ids)
+        return onCampusSession.objects.filter(course__in=course_ids)
 
 class SessionByUniversityView(generics.ListAPIView):
     """
@@ -197,11 +197,7 @@ class SessionCreateView(generics.CreateAPIView):
                             status=status.HTTP_400_BAD_REQUEST)
 
         location = Location.objects.get(pk=request.DATA['location'])
-        # Need to inject data before validating because these are not given by
-        # client
-        request.DATA['latitude'] = location.latitude
-        request.DATA['longitude'] = location.longitude
-
+        print request.DATA
         serializer = self.get_serializer(data=request.DATA)
 
         if serializer.is_valid():
