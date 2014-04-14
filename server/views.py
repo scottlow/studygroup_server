@@ -176,7 +176,7 @@ class SessionByUniversityView(generics.ListAPIView):
 
     def get_queryset(self):
         uni_id = self.kwargs['universityID']
-        return Session.objects.filter(
+        return onCampusSession.objects.filter(
             course__in=[e.id for e in Course.objects.filter(university__pk=uni_id)]
         )
 
@@ -189,7 +189,7 @@ class SessionHostingView(generics.ListAPIView):
     serializer_class = server.serializers.SessionViewSerializer
 
     def get_queryset(self):
-        return Session.objects.filter(coordinator__pk=self.request.user.id)
+        return onCampusSession.objects.filter(coordinator__pk=self.request.user.id)
 
 class SessionAttendingView(generics.ListAPIView):
     """
@@ -200,7 +200,7 @@ class SessionAttendingView(generics.ListAPIView):
     serializer_class = server.serializers.SessionViewSerializer
 
     def get_queryset(self):
-        return Session.objects.filter(attendees=self.request.user)
+        return onCampusSession.objects.filter(attendees=self.request.user)
 
 class SessionCreateView(generics.CreateAPIView):
     """ Creates a new session.
@@ -252,7 +252,7 @@ class SessionUpdateView(mixins.UpdateModelMixin, GenericAPIView):
         if 'id' in self.request.DATA:
             session_id = self.request.DATA['id']
             try:
-                return Session.objects.get(pk=session_id)
+                return onCampusSession.objects.get(pk=session_id)
             except ObjectDoesNotExist:
                 logger.debug("Tried to update Session with id {}, but could "
                              "not find it.".format(session_id))
