@@ -1,0 +1,228 @@
+[14/Apr/2014 07:48:43] ERROR [django.request:226] Internal Server Error: /universities/list/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:48:43] ERROR [django.request:226] Internal Server Error: /universities/list/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:48:44] ERROR [django.request:226] Internal Server Error: /sessions/courses/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:48:44] ERROR [django.request:226] Internal Server Error: /sessions/courses/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:48:51] ERROR [django.request:226] Internal Server Error: /universities/list/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:48:51] ERROR [django.request:226] Internal Server Error: /universities/list/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:48:52] ERROR [django.request:226] Internal Server Error: /sessions/courses/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:48:52] ERROR [django.request:226] Internal Server Error: /sessions/courses/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:49:32] ERROR [django.request:226] Internal Server Error: /universities/list/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:49:32] ERROR [django.request:226] Internal Server Error: /universities/list/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:49:32] ERROR [django.request:226] Internal Server Error: /sessions/courses/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined
+[14/Apr/2014 07:49:32] ERROR [django.request:226] Internal Server Error: /sessions/courses/
+Traceback (most recent call last):
+  File "/Library/Python/2.7/site-packages/django/core/handlers/base.py", line 101, in get_response
+    resolver_match = resolver.resolve(request.path_info)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 318, in resolve
+    for pattern in self.url_patterns:
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 346, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/Library/Python/2.7/site-packages/django/core/urlresolvers.py", line 341, in urlconf_module
+    self._urlconf_module = import_module(self.urlconf_name)
+  File "/Library/Python/2.7/site-packages/django/utils/importlib.py", line 40, in import_module
+    __import__(name)
+  File "/Users/scottlow/studygroup_server/studygroup_server/urls.py", line 3, in <module>
+    from server import views
+  File "/Users/scottlow/studygroup_server/server/views.py", line 11, in <module>
+    import server.serializers
+  File "/Users/scottlow/studygroup_server/server/serializers.py", line 42, in <module>
+    class SessionViewSerializer(SessionSerializer):
+NameError: name 'SessionSerializer' is not defined

@@ -39,7 +39,7 @@ class onCampusSessionSerializer(serializers.ModelSerializer):
         model = server.models.onCampusSession
         fields = ('id', 'coordinator', 'course', 'location', 'attendees', 'start_time', 'end_time', 'room_number')
 
-class SessionViewSerializer(SessionSerializer):
+class SessionViewSerializer(onCampusSessionSerializer):
     course = MinimalCourseSerializer(many=False)
     coordinator = MinimalStudentSerializer(many=False)
 
