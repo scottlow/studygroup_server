@@ -32,16 +32,26 @@ class Location(models.Model):
 	latitude = models.FloatField()
 	longitude = models.FloatField()
 	name = models.CharField(max_length=100)
-	room_number = models.IntegerField(null=True)
 	university = models.ForeignKey(University)
 	frequency = models.IntegerField()
 
 class Session(models.Model):
 	coordinator = models.ForeignKey(Student, related_name="session_coordinator")
 	course = models.ForeignKey(Course)
-	latitude = models.FloatField()
-	longitude = models.FloatField()
-	location = models.ForeignKey(Location)
 	attendees = models.ManyToManyField(Student, related_name="session_attendees")
 	start_time = models.DateTimeField()
 	end_time = models.DateTimeField()
+
+	class Meta:
+		abstract = True
+
+class onCampusSession(Session):
+    location = models.ForeignKey(Location)
+    room_number = models.IntegerField(null=True)  
+    
+# class offCampusSession(Session):
+#     location = models.ForeignKey(Location)
+
+# I have a feeling that off campus sessions shouldn't even have locations. They should
+# have a lat, long, and optional address (Street number, street name, etc) and we
+# shouldn't really be keeping track of off campus locations in the database by id. 
