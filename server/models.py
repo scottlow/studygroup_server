@@ -42,6 +42,9 @@ class Session(models.Model):
 	start_time = models.DateTimeField()
 	end_time = models.DateTimeField()
 
+	class Meta:
+		abstract = True
+
 class onCampusSession(Session):
     location = models.ForeignKey(Location)
     room_number = models.IntegerField(null=True)  
