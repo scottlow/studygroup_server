@@ -20,7 +20,8 @@ class Course(models.Model):
         return self.name    
 
 class Student(AbstractUser):
-    courses = models.ManyToManyField(Course)
+    courses = models.ManyToManyField(Course, related_name="courses")
+    active_courses = models.ManyToManyField(Course, related_name="active_courses")
     university = models.ForeignKey(University, related_name="university") 
 
 @receiver(post_save, sender=Student)

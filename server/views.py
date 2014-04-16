@@ -101,6 +101,7 @@ class AddCourseView(generics.CreateAPIView):
 
         if course_to_add != None:
             request.user.courses.add(course_to_add)
+            request.user.active_courses.add(course_to_add)            
             request.user.save()  
         else:
             HttpResponseServerError("Invalid course_id specified.")
@@ -125,11 +126,39 @@ class RemoveCourseView(generics.CreateAPIView):
 
         if course_to_remove != None:
             request.user.courses.remove(course_to_remove)
+            request.user.active_courses.remove(course_to_remove)            
             request.user.save() 
         else:
             HttpResponseServerError("Invalid course_id specified.")
 
-        return HttpResponse("success")        
+        return HttpResponse("success")
+
+class FilterCourseView(generics.CreateAPIView):
+    """
+    This view provides an endpoint for users to
+    remove a course from their courses list.
+    """        
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        course_id = None
+        try:
+            course_id = request.DATA['course_id']
+        except KeyError:
+            HttpResponseServerError("Malformed JSON data.")
+
+        course_to_filter = Course.objects.get(pk=course_id)
+
+        if course_to_filter != None:
+            if course_to_filter in request.user.active_courses.all():
+                request.user.active_courses.remove(course_to_filter)
+            else:
+                request.user.active_courses.add(course_to_filter)           
+            request.user.save() 
+        else:
+            HttpResponseServerError("Invalid course_id specified.")
+
+        return HttpResponse("success")                  
 
 class UniversityView(generics.ListCreateAPIView):
     permission_classes = (AllowAny,)    
