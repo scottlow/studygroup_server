@@ -159,7 +159,7 @@ class SessionPerCourseView(generics.ListAPIView):
     """
 
     permission_classes = (AllowAny,)
-    serializer_class = server.serializers.onCampusSessionSerializer
+    serializer_class = server.serializers.SessionViewSerializer
 
     def get_queryset(self):
         course_ids = self.request.GET.getlist('id')
