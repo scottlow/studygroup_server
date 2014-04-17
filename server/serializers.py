@@ -10,7 +10,7 @@ class CourseSerializer(serializers.ModelSerializer):
 class MinimalCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.Course
-        fields = ('id', 'name')
+        fields = ('id', 'name')     
 
 class UniversitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,7 +33,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class MinimalStudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.Student
-        fields = ('id', 'username')
+        fields = ('id', 'username', 'first_name')
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,6 +48,7 @@ class onCampusSessionSerializer(serializers.ModelSerializer):
 class SessionViewSerializer(onCampusSessionSerializer):
     course = MinimalCourseSerializer(many=False)
     coordinator = MinimalStudentSerializer(many=False)
+    location = LocationSerializer(many=False)
 
 class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:
