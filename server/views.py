@@ -67,7 +67,20 @@ class RegisterUserView(generics.CreateAPIView):
                 email=serializer.init_data["email"],
                 university=University.objects.get(id=serializer.init_data['university']),
             )
-            student.first_name = serializer.init_data['name']          
+
+            for course in serializer.init_data["courses"]:
+                course_to_add = None
+                try:
+                    course_to_add = Course.objects.get(pk=course["id"])
+                except KeyError:
+                    HttpResponseServerError("Malformed JSON data.")
+
+                if course_to_add != None:
+                    student.courses.add(course_to_add)
+                    if(course["active"] == True):
+                        student.active_courses.add(course_to_add)
+
+            student.first_name = serializer.init_data['name']
             student.save()
             token, created = Token.objects.get_or_create(user=student)
             return Response(data={'token':token.key}, status=200)
