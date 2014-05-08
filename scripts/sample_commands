@@ -4,6 +4,10 @@ Get auth token for an already registered user:
 
     curl -X POST http://127.0.0.1:8000/verify_credentials/ -H "Content-Type: application/json" -d '{"username":"scottlow","password":"derp1"}'
 
+Update user profile (e.g. update email):
+
+    curl -X PATCH http://127.0.0.1:8000/users/profile -H "Content-Type: application/json" -H "Authorization: Token 303466970299979b3c048324400887cfeea32b92" -d '{"email": "herp@derp.com"}'
+
 =====================      COURSES      =====================
 
 Add the course with course_id to authenticated user's courses list.
@@ -29,3 +33,8 @@ Get a session based on a course ID.
 Edit an existing session. (Editing latitude for example.)
 
     curl -X PATCH http://127.0.0.1:8000/sessions/edit/ -H 'Accept: application/json; indent=4' -H 'Content-Type: application/json' -H 'Authorization: Token a0535c73d2d42b017211af02c55d7fbc6bbc6eb4' -d '{"id": 4, "latitude": 48.4660400}'
+
+Join a session based on session ID.
+
+    curl -X POST http://127.0.0.1:8000/sessions/join -H "Content-Type: application/json" -H "Authorization: Token 0649fd8cec992530daffef7adbbf00c380a39244" -d '{"session_id": 1}'
+

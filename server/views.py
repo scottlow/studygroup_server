@@ -10,6 +10,10 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 import server.serializers
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class StudentViewSet(viewsets.ModelViewSet):
     permission_classes = (AllowAny,)    
@@ -231,18 +235,9 @@ class SessionHostingView(generics.ListAPIView):
     serializer_class = server.serializers.SessionViewSerializer
 
     def get_queryset(self):
-        return onCampusSession.objects.filter(coordinator__pk=self.request.user.id)
+        return onCampusSession.objects.filter(
+            coordinator__pk=self.request.user.id)
 
-class SessionAttendingView(generics.ListAPIView):
-    """
-    GET
-    Returns a list of sessions that the authenticated user is attending
-    """
-    authentication_classes = (TokenAuthentication,)
-    serializer_class = server.serializers.SessionViewSerializer
-
-    def get_queryset(self):
-        return onCampusSession.objects.filter(attendees=self.request.user)
 
 class SessionCreateView(generics.CreateAPIView):
     """ Creates a new session.
@@ -272,6 +267,50 @@ class SessionCreateView(generics.CreateAPIView):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
+
+class SessionAttendingView(generics.ListAPIView):
+    """
+    GET
+    Returns a list of sessions that the authenticated user is attending
+    """
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = server.serializers.SessionViewSerializer
+
+    def get_queryset(self):
+        return onCampusSession.objects.filter(attendees=self.request.user)
+
+
+class SessionJoinView(generics.CreateAPIView):
+    """
+    POST
+    Appends current user to the attendees of session with the given session ID.
+    """
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        # Get the session with the session ID.
+        try:
+            session = onCampusSession.objects.get(pk=request.DATA['session_id'])
+        except ObjectDoesNotExist:
+            return Response("There is no session with that given ID.",
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        # Append only when you are not the coordinator, and you are not
+        # already attending that session.
+        if session.coordinator.id == request.user.id:
+            return Response("You are the coordinator of this session, "
+                            "so there is no need to add yourself to the list "
+                            "of attendees.",
+                            status=status.HTTP_400_BAD_REQUEST)
+        elif session.attendees.filter(id=request.user.id).exists():
+            return Response("User {} is already attending this session.".
+                            format(request.user.username),
+                            status=status.HTTP_400_BAD_REQUEST)
+        else:
+            session.attendees.add(request.user)
+            return Response("User {} added to session with ID {}.".
+                            format(request.user.username, session.id),
+                            status=status.HTTP_200_OK)
 
 class SessionUpdateView(mixins.UpdateModelMixin, GenericAPIView):
     """ PATCH. Updates a session given its ID in the database.
