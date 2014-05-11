@@ -49,6 +49,7 @@ class SessionViewSerializer(onCampusSessionSerializer):
     course = MinimalCourseSerializer(many=False)
     coordinator = MinimalStudentSerializer(many=False)
     location = LocationSerializer(many=False)
+    attendees = MinimalStudentSerializer(many=True)
 
 class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:
