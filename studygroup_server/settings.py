@@ -39,18 +39,19 @@ INSTALLED_APPS = (
     'rest_framework',
     'server',
     'rest_framework.authtoken',
-    'corsheaders',     
+    'corsheaders',   
+    'debug_toolbar',  
 )
 
 REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES' : (
-        'rest_framework.renderers.JSONRenderer',
-        ),
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    # 'DEFAULT_RENDERER_CLASSES' : (
+    #     'rest_framework.renderers.JSONRenderer',
+    #     ),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),   
     'TEST_REQUEST_DEFAULT_FORMAT' : 'json',
     'TEST_REQUEST_RENDERER_CLASSES' : (
         'rest_framework.renderers.JSNORenderer',
-    )
+    ) 
 }
 
 MIDDLEWARE_CLASSES = (

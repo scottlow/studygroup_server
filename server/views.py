@@ -210,7 +210,8 @@ class SessionPerCourseView(generics.ListAPIView):
     def get_queryset(self):
         course_ids = self.request.GET.getlist('id')
         print course_ids
-        return onCampusSession.objects.filter(course__in=course_ids)
+        s = onCampusSession.objects.select_related('course', 'coordinator', 'location')
+        return s.filter(course__in=course_ids)
 
 class SessionByUniversityView(generics.ListAPIView):
     """
