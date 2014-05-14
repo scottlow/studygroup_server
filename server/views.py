@@ -322,7 +322,8 @@ class SessionLeaveView(generics.CreateAPIView):
     the given session ID. If the user is the coordinator of that session,
     then the session is deleted if there are no attendees, and if there are,
     the coordinator is removed such that the session has attendees but no
-    coordinator.
+    coordinator. If the user is not the coordinator and there are other
+    attendees, simply leave the session, and if not, delete the session.
     """
 
     authentication_classes = (TokenAuthentication,)
@@ -347,10 +348,17 @@ class SessionLeaveView(generics.CreateAPIView):
                 return Response("Coordinator removed from the session.",
                                 status=status.HTTP_200_OK)
         elif session.attendees.filter(id=request.user.id).exists():
-            session.attendees.remove(request.user)
-            return Response("User {} removed from session with ID {}.".
-                            format(request.user.username, session.id),
-                            status=status.HTTP_200_OK)
+            if session.coordinator is None and session.attendees.count() == 1:
+                session.delete()
+                return Response("User {} removed from session with ID {}, "
+                                "and session was deleted.".format(
+                                request.user.username, session.id),
+                                status=status.HTTP_200_OK)
+            else:
+                session.attendees.remove(request.user)
+                return Response("User {} removed from session with ID {}.".
+                                format(request.user.username, session.id),
+                                status=status.HTTP_200_OK)
         else:
             return Response("User was not removed because he/she was not an"
                             "attendee of the session.",
