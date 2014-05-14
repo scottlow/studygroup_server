@@ -298,7 +298,7 @@ class SessionJoinView(generics.CreateAPIView):
 
         # Append only when you are not the coordinator, and you are not
         # already attending that session.
-        if session.coordinator.id == request.user.id:
+        if session.coordinator and session.coordinator.id == request.user.id:
             return Response("You are the coordinator of this session, "
                             "so there is no need to add yourself to the list "
                             "of attendees.",
@@ -309,9 +309,53 @@ class SessionJoinView(generics.CreateAPIView):
                             status=status.HTTP_400_BAD_REQUEST)
         else:
             session.attendees.add(request.user)
+            session.save()
             return Response("User {} added to session with ID {}.".
                             format(request.user.username, session.id),
                             status=status.HTTP_200_OK)
+
+
+class SessionLeaveView(generics.CreateAPIView):
+    """
+    POST
+    Removes the current user from the list of attendees for the session with
+    the given session ID. If the user is the coordinator of that session,
+    then the session is deleted if there are no attendees, and if there are,
+    the coordinator is removed such that the session has attendees but no
+    coordinator.
+    """
+
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        try:
+            session = onCampusSession.objects.get(pk=request.DATA['session_id'])
+        except ObjectDoesNotExist:
+            return Response("There is no session with that given ID.",
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        if session.coordinator and session.coordinator.id == request.user.id:
+            if session.attendees.count() == 0:
+                # Delete the session
+                session.delete()
+                return Response("Session deleted.", status=status.HTTP_200_OK)
+            else:
+                # Could assign a new coordinator, but leave it blank for now.
+                session.coordinator = None
+                session.save()
+
+                return Response("Coordinator removed from the session.",
+                                status=status.HTTP_200_OK)
+        elif session.attendees.filter(id=request.user.id).exists():
+            session.attendees.remove(request.user)
+            return Response("User {} removed from session with ID {}.".
+                            format(request.user.username, session.id),
+                            status=status.HTTP_200_OK)
+        else:
+            return Response("User was not removed because he/she was not an"
+                            "attendee of the session.",
+                            status=status.HTTP_400_BAD_REQUEST)
+
 
 class SessionUpdateView(mixins.UpdateModelMixin, GenericAPIView):
     """ PATCH. Updates a session given its ID in the database.

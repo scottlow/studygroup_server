@@ -37,7 +37,11 @@ class Location(models.Model):
 	frequency = models.IntegerField()
 
 class Session(models.Model):
-	coordinator = models.ForeignKey(Student, related_name="session_coordinator")
+	# Null=True and blank=True to allow sessions to have no coordinators
+	# should they choose to leave the session that they're coordinating
+	coordinator = models.ForeignKey(Student,
+                                    related_name="session_coordinator",
+                                    null=True, blank=True)
 	course = models.ForeignKey(Course)
 	attendees = models.ManyToManyField(Student, related_name="session_attendees")
 	start_time = models.DateTimeField()

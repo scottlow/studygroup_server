@@ -23,7 +23,9 @@ urlpatterns = patterns('',
     url(r'^sessions/host', views.SessionHostingView.as_view()),
     url(r'^sessions/attend', views.SessionAttendingView.as_view()),    
     url(r'^sessions/join/?', views.SessionJoinView.as_view()),
+    url(r'^sessions/leave/?', views.SessionLeaveView.as_view()),
     url(r'^sessions/create/?$', views.SessionCreateView.as_view()),
     url(r'^sessions/edit/?$', views.SessionUpdateView.as_view()),
+
     url(r'^sessions/university/(?P<universityID>.+)/?$', views.SessionByUniversityView.as_view()),
 )
