@@ -40,8 +40,8 @@ class StudentProfileView(generics.RetrieveUpdateAPIView):
     authentication_classes = (TokenAuthentication,)
 
     def get_object(self):
-        return self.request.user
-
+        s = Student.objects.prefetch_related('courses', 'active_courses').select_related('university')
+        return s.get(pk=self.request.user.id)
 
 class CourseList(generics.ListAPIView):
     """
