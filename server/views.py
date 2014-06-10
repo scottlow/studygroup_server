@@ -21,7 +21,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     serializer_class = server.serializers.StudentSerializer
 
 
-class StudentProfileView(generics.RetrieveUpdateAPIView):
+class StudentProfileView(generics.RetrieveAPIView):
     """Retrieves or updates the current student's info given correct token.
 
     Retrieve returns as JSON:
