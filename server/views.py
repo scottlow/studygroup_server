@@ -55,12 +55,43 @@ class CourseList(generics.ListAPIView):
         uni_id = self.kwargs['universityID']
         return Course.objects.filter(university__pk=uni_id) 
 
+class UpdateProfileView(generics.CreateAPIView): 
+    """
+    This view provides an endpoint for users to
+    update their profile information.
+    """
+    authentication_classes = (TokenAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        serializer = server.serializers.StudentRegisterSerializer(fields=request.DATA.keys(), data=request.DATA)
+        if serializer.is_valid():
+            student = Student.objects.get(pk=request.user.id)
+            if(serializer.init_data['password']):
+                student.set_password(serializer.init_data['password'])
+            if(serializer.init_data['email']):
+                student.email = serializer.init_data['email']
+            if(serializer.init_data['name']):
+                student.first_name = serializer.init_data['name']
+            student.save()
+            return HttpResponse("success") 
+        else:
+            header = {"Access-Control-Expose-Headers": "Error-Message, Error-Type"}
+            errors = serializer.errors["non_field_errors"]
+            if errors:
+                if errors[0] == "username":
+                    header["Error-Type"] = errors[0]
+                    header["Error-Message"] = "Username {0} already exists".format(serializer.init_data['username'])                  
+                elif errors[0] == "email":
+                    header['Error-Type'] = errors[0]
+                    header["Error-Message"] = "Email {0} already exists".format(serializer.init_data['email'])
+            return Response(headers=header, status=400)
+
 class RegisterUserView(generics.CreateAPIView):  
     """
     This view provides an endpoint for new users
     to register.
     """    
-    permission_classes = (AllowAny,)  
+    permission_classes = (AllowAny,) 
 
     def post(self, request, *args, **kwargs):          
         serializer = server.serializers.StudentRegisterSerializer(data=request.DATA)

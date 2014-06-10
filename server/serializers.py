@@ -56,13 +56,28 @@ class StudentRegisterSerializer(serializers.ModelSerializer):
         model = server.models.Student
         fields = ('id', 'username', 'password', 'email')
 
+    def __init__(self, *args, **kwargs):
+        # Don't pass the 'fields' arg up to the superclass
+        fields = kwargs.pop('fields', None)
+
+        # Instantiate the superclass normally
+        super(serializers.ModelSerializer, self).__init__(*args, **kwargs)
+
+        if fields:
+            # Drop any fields that are not specified in the `fields` argument.
+            allowed = set(fields)
+            existing = set(self.fields.keys())
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
     def validate(self, attrs):
         """
         Ensure username and email don't already exist in the database
         """
-        if server.models.Student.objects.filter(username=attrs['username']).exists():
+        print attrs
+        if 'username' in attrs and server.models.Student.objects.filter(username=attrs['username']).exists():
             raise ValidationError("username")
-        elif server.models.Student.objects.filter(email=attrs["email"]).exists():
+        elif 'email' in attrs and server.models.Student.objects.filter(email=attrs["email"]).exists():
             raise ValidationError("email")
         else:
             return attrs

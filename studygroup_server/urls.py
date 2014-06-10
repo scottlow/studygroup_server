@@ -3,7 +3,6 @@ from rest_framework import routers
 from server import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.StudentViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
@@ -15,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^courses/remove/?', views.RemoveCourseView.as_view()),
     url(r'^courses/filter/?', views.FilterCourseView.as_view()), 
     url(r'^register/?', views.RegisterUserView.as_view()),     
+    url(r'^users/update_profile/?', views.UpdateProfileView.as_view()),    
     url(r'^courses/university/(?P<universityID>.+)/?$', views.CourseList.as_view()),    
     url(r'^universities/list/?', views.UniversityView.as_view()),
     url(r'^locations/university/(?P<universityID>.+)/?$', views.UniversityLocationsView.as_view()),     
