@@ -66,11 +66,11 @@ class UpdateProfileView(generics.CreateAPIView):
         serializer = server.serializers.StudentRegisterSerializer(fields=request.DATA.keys(), data=request.DATA)
         if serializer.is_valid():
             student = Student.objects.get(pk=request.user.id)
-            if(serializer.init_data['password']):
+            if('password' in request.DATA.keys()):
                 student.set_password(serializer.init_data['password'])
-            if(serializer.init_data['email']):
+            if('email' in request.DATA.keys()):
                 student.email = serializer.init_data['email']
-            if(serializer.init_data['name']):
+            if('name' in request.DATA.keys()):
                 student.first_name = serializer.init_data['name']
             student.save()
             return HttpResponse("success") 
