@@ -10,7 +10,7 @@ csv_writer = csv.writer(csvfile, delimiter='|', quotechar='|', quoting=csv.QUOTE
 
 # Get course keys (i.e. 'SENG') from options dropdown
 url = "https://www.uvic.ca/BAN2P/bwckgens.p_proc_term_date"
-params = "p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=201405"
+params = "p_calling_proc=bwckschd.p_disp_dyn_sched&p_term=201409"
 
 h = httplib2.Http()
 
@@ -25,7 +25,7 @@ for course in courses:
 
 # Start making requests to each course category
 url = "https://www.uvic.ca/BAN2P/bwckschd.p_get_crse_unsec"
-params_tmpl = "term_in=201405&sel_subj=dummy&sel_day=dummy&sel_schd=dummy&sel_insm=dummy&sel_camp=dummy&sel_levl=dummy&sel_sess=dummy&sel_instr=dummy&sel_ptrm=dummy&sel_attr=dummy&sel_subj={0}&sel_crse=&sel_title=&sel_schd=%25&sel_insm=%25&sel_from_cred=&sel_to_cred=&sel_camp=%25&sel_levl=%25&sel_ptrm=%25&sel_instr=%25&begin_hh=0&begin_mi=0&begin_ap=a&end_hh=0&end_mi=0&end_ap=a"
+params_tmpl = "term_in=201409&sel_subj=dummy&sel_day=dummy&sel_schd=dummy&sel_insm=dummy&sel_camp=dummy&sel_levl=dummy&sel_sess=dummy&sel_instr=dummy&sel_ptrm=dummy&sel_attr=dummy&sel_subj={0}&sel_crse=&sel_title=&sel_schd=%25&sel_insm=%25&sel_from_cred=&sel_to_cred=&sel_camp=%25&sel_levl=%25&sel_ptrm=%25&sel_instr=%25&begin_hh=0&begin_mi=0&begin_ap=a&end_hh=0&end_mi=0&end_ap=a"
 
 for j in range(0, len(course_vals)):
 	title_text = []
@@ -63,3 +63,5 @@ for j in range(0, len(course_vals)):
 					csv_writer.writerow([title_text[i][0] + ' - ' + title_text[i][1]] + ['null', 'null'])
 		except IndexError:
 			csv_writer.writerow([title_text[i][0] + ' - ' + title_text[i][1]] + ['null', 'null'])
+		except UnicodeEncodeError:
+			print 'Whoops'

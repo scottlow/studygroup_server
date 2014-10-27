@@ -367,7 +367,12 @@ class SessionLeaveView(generics.CreateAPIView):
             return Response("There is no session with that given ID.",
                             status=status.HTTP_400_BAD_REQUEST)
 
-        if session.coordinator and session.coordinator.id == request.user.id:
+        try:
+            coordinator = session.coordinator
+        except ObjectDoesNotExist:
+            coordinator = None
+
+        if coordinator is not None and session.coordinator.id == request.user.id:
             if session.attendees.count() == 0:
                 # Delete the session
                 session.delete()
@@ -380,7 +385,7 @@ class SessionLeaveView(generics.CreateAPIView):
                 return Response("Coordinator removed from the session.",
                                 status=status.HTTP_200_OK)
         elif session.attendees.filter(id=request.user.id).exists():
-            if session.coordinator is None and session.attendees.count() == 1:
+            if coordinator is None and session.attendees.count() == 1:
                 session.delete()
                 return Response("User {} removed from session with ID {}, "
                                 "and session was deleted.".format(

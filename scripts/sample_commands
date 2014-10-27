@@ -6,7 +6,7 @@ Get auth token for an already registered user:
 
 Update user profile (e.g. update email):
 
-    curl -X PATCH http://127.0.0.1:8000/users/profile -H "Content-Type: application/json" -H "Authorization: Token 303466970299979b3c048324400887cfeea32b92" -d '{"email": "herp@derp.com"}'
+    curl -X PATCH http://127.0.0.1:8000/users/profile -H "Content-Type: application/json" -H "Authorization: Token 0ea3524a211bb046da2fc1c3bdc02a5f64cb146a" -d '{"email": "herp@derp.com"}'
 
 =====================      COURSES      =====================
 
