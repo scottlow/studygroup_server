@@ -37,10 +37,11 @@ class Student(AbstractUser):
         (SEVENTH_YEAR, 'Seventh Year'),
     )
 
+    OTHER = 'OT'    
+
     UNDERGRADUATE = 'UN'
     MASTERS = 'MA'
     PHD = 'PH'
-    OTHER = 'OT'
     LEVELS_OF_STUDY = (
         (UNDERGRADUATE, 'Undergraduate'),
         (MASTERS, 'Masters'),
@@ -54,7 +55,8 @@ class Student(AbstractUser):
     LEARNING_STYLES = (
         (AUDITORY, 'Auditory'),
         (VISUAL, 'Visual'),
-        (KINESTHETIC, 'Kinesthetic'),         
+        (KINESTHETIC, 'Kinesthetic'),
+        (OTHER, 'Other'),
     )
 
     year_of_study = models.IntegerField(choices=YEARS_OF_STUDY, default=FIRST_YEAR)

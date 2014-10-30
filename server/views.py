@@ -116,6 +116,10 @@ class RegisterUserView(generics.CreateAPIView):
                         student.active_courses.add(course_to_add)
 
             student.first_name = serializer.init_data['name']
+            student.program = serializer.init_data['program']
+            student.level_of_study = serializer.init_data['level_of_study']
+            student.year_of_study = serializer.init_data['year_of_study']
+            student.learning_style = serializer.init_data['learning_style']
             student.save()
             token, created = Token.objects.get_or_create(user=student)
             return Response(data={'token':token.key}, status=200)
