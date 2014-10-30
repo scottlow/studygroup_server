@@ -26,9 +26,12 @@ class StudentSerializer(serializers.ModelSerializer):
     courses = CourseSerializer(many=True)
     active_courses = ActiveCourseSerializer(many=True)
     university = UniversitySerializer(many=False)
+    # learning_style = serializers.CharField(source='get_style_display')
+    # level_of_study = serializers.CharField(source='get_level_display')
+    # year_of_study = serializers.CharField(source='get_year_display')     
     class Meta:
         model = server.models.Student
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses', 'active_courses', 'university')        
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses', 'active_courses', 'university', 'year_of_study', 'program', 'learning_style', 'level_of_study', 'about_me')        
 
 class MinimalStudentSerializer(serializers.ModelSerializer):
     class Meta:
