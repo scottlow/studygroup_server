@@ -34,9 +34,12 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'first_name', 'last_name', 'courses', 'active_courses', 'university', 'year_of_study', 'program', 'learning_style', 'level_of_study', 'about_me')        
 
 class MinimalStudentSerializer(serializers.ModelSerializer):
+    learning_style = serializers.CharField(source='get_style_display')
+    level_of_study = serializers.CharField(source='get_level_display')
+    year_of_study = serializers.CharField(source='get_year_display')    
     class Meta:
         model = server.models.Student
-        fields = ('id', 'username', 'first_name')
+        fields = ('id', 'username', 'first_name', 'year_of_study', 'program', 'learning_style', 'level_of_study', 'about_me')
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,7 +49,7 @@ class LocationSerializer(serializers.ModelSerializer):
 class onCampusSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = server.models.onCampusSession
-        fields = ('id', 'coordinator', 'course', 'location', 'attendees', 'start_time', 'end_time', 'room_number')
+        fields = ('id', 'coordinator', 'course', 'location', 'attendees', 'start_time', 'end_time', 'room_number', 'max_participants', 'description')
 
 class SessionViewSerializer(onCampusSessionSerializer):
     course = MinimalCourseSerializer(many=False)
