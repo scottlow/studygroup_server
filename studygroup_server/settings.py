@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'server',
     'rest_framework.authtoken',
     'corsheaders',   
-    'debug_toolbar',  
+    'debug_toolbar',
+    'typedmodels'
 )
 
 REST_FRAMEWORK = {

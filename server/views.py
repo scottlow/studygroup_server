@@ -375,8 +375,11 @@ class SessionJoinView(generics.CreateAPIView):
         try:
             session = onCampusSession.objects.get(pk=request.DATA['session_id'])
         except ObjectDoesNotExist:
-            return Response("There is no session with that given ID.",
-                            status=status.HTTP_400_BAD_REQUEST)
+            try:
+                session = offCampusSession.objects.get(pk=request.DATA['session_id'])
+            except ObjectDoesNotExist:
+                return Response("There is no session with that given ID.",
+                                status=status.HTTP_400_BAD_REQUEST)
 
         # Append only when you are not the coordinator, and you are not
         # already attending that session.
@@ -414,8 +417,11 @@ class SessionLeaveView(generics.CreateAPIView):
         try:
             session = onCampusSession.objects.get(pk=request.DATA['session_id'])
         except ObjectDoesNotExist:
-            return Response("There is no session with that given ID.",
-                            status=status.HTTP_400_BAD_REQUEST)
+            try:
+                session = offCampusSession.objects.get(pk=request.DATA['session_id'])
+            except ObjectDoesNotExist:
+                return Response("There is no session with that given ID.",
+                                status=status.HTTP_400_BAD_REQUEST)
 
         try:
             coordinator = session.coordinator

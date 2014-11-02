@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from typedmodels import TypedModel
 
 class University(models.Model):
     name = models.CharField(max_length=100);
@@ -96,7 +97,7 @@ class Location(models.Model):
     university = models.ForeignKey(University)
     frequency = models.IntegerField()
 
-class Session(models.Model):
+class Session(TypedModel):
     # Null=True and blank=True to allow sessions to have no coordinators
     # should they choose to leave the session that they're coordinating
     coordinator = models.ForeignKey(Student, related_name="%(app_label)s_%(class)s_related_coordinator", null=True, blank=True)
@@ -106,9 +107,6 @@ class Session(models.Model):
     end_time = models.DateTimeField()
     description = models.CharField(max_length=400)
     max_participants = models.IntegerField()
-
-    class Meta:
-        abstract = True
 
 class onCampusSession(Session):
     location = models.ForeignKey(Location)
