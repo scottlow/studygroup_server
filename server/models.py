@@ -118,4 +118,3 @@ class offCampusSession(Session):
     latitude = models.FloatField()
     longitude = models.FloatField()
     name = models.CharField(max_length=100) 
-    address_string = models.CharField(max_length=150)

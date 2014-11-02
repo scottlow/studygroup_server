@@ -51,11 +51,21 @@ class onCampusSessionSerializer(serializers.ModelSerializer):
         model = server.models.onCampusSession
         fields = ('id', 'coordinator', 'course', 'location', 'attendees', 'start_time', 'end_time', 'room_number', 'max_participants', 'description')
 
+class offCampusSessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = server.models.offCampusSession
+        fields = ('id', 'coordinator', 'course', 'latitude', 'longitude', 'attendees', 'start_time', 'end_time', 'name', 'max_participants', 'description')        
+
 class SessionViewSerializer(onCampusSessionSerializer):
     course = MinimalCourseSerializer(many=False)
     coordinator = MinimalStudentSerializer(many=False)
     location = LocationSerializer(many=False)
     attendees = MinimalStudentSerializer(many=True)
+
+class offCampusSessionViewSerializer(offCampusSessionSerializer):
+    course = MinimalCourseSerializer(many=False)
+    coordinator = MinimalStudentSerializer(many=False)
+    attendees = MinimalStudentSerializer(many=True)    
 
 class StudentRegisterSerializer(serializers.ModelSerializer):
     class Meta:

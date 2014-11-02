@@ -1,7 +1,7 @@
 from rest_framework import generics, status, viewsets, mixins
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from server.models import Course, Student, University, Session, Location, onCampusSession
+from server.models import Course, Student, University, Session, Location, onCampusSession, offCampusSession
 from django.http import HttpResponse, HttpResponseServerError, Http404
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
@@ -250,14 +250,38 @@ class SessionPerCourseView(generics.ListAPIView):
     """
 
     permission_classes = (AllowAny,)
-    serializer_class = server.serializers.SessionViewSerializer
+    # serializer_class = server.serializers.SessionViewSerializer
 
-    def get_queryset(self):
+    # def get_queryset(self):
+    #     course_ids = self.request.GET.getlist('id')
+    #     print course_ids
+    #     s = onCampusSession.objects.select_related('course', 'coordinator', 'location')
+    #     s = s.prefetch_related('attendees')
+
+    #     return s.filter(course__in=course_ids)
+
+    def get(self, request):
         course_ids = self.request.GET.getlist('id')
         print course_ids
         s = onCampusSession.objects.select_related('course', 'coordinator', 'location')
         s = s.prefetch_related('attendees')
-        return s.filter(course__in=course_ids)
+        s = s.filter(course__in=course_ids)
+
+        onCampus = server.serializers.SessionViewSerializer(s, many=True)
+
+        ofcs = offCampusSession.objects.select_related('course', 'coordinator')
+        ofcs = ofcs.prefetch_related('attendees')
+        ofcs = ofcs.filter(course__in=course_ids)
+
+        offCampus = server.serializers.offCampusSessionViewSerializer(ofcs, many=True)
+
+        for entry in offCampus.data:
+            entry["location"] = {"latitude" : entry["latitude"], "longitude" : entry["longitude"], "name" : entry["name"]}
+            del entry["longitude"]
+            del entry["latitude"]
+            del entry["name"]
+
+        return Response(onCampus.data + offCampus.data, status=status.HTTP_201_CREATED)        
 
 class SessionByUniversityView(generics.ListAPIView):
     """
@@ -294,25 +318,37 @@ class SessionCreateView(generics.CreateAPIView):
     """
 
     authentication_classes = (TokenAuthentication,)
-    serializer_class = server.serializers.onCampusSessionSerializer
 
     def post(self, request, *args, **kwargs):
         if 'location' not in request.DATA:
-            return Response("Location ID Missing.",
-                            status=status.HTTP_400_BAD_REQUEST)
+            # We're dealing with an off campus session
+            serializer = server.serializers.offCampusSessionSerializer(data=request.DATA)
+            if serializer.is_valid():
+                serializer.save()
 
-        location = Location.objects.get(pk=request.DATA['location'])
-        print request.DATA
-        serializer = self.get_serializer(data=request.DATA)
+                serializer.data["location"] = {"latitude" : serializer.data["latitude"], "longitude" : serializer.data["longitude"], "name" : serializer.data["name"]}
+                del serializer.data["longitude"]
+                del serializer.data["latitude"]
+                del serializer.data["name"]
+                
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors,
+                                status=status.HTTP_400_BAD_REQUEST)                
 
-        if serializer.is_valid():
-            location.frequency += 1
-            location.save()
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+            location = Location.objects.get(pk=request.DATA['location'])
+            print request.DATA
+            serializer = server.serializers.onCampusSessionSerializer(data=request.DATA)
+
+            if serializer.is_valid():
+                location.frequency += 1
+                location.save()
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors,
+                                status=status.HTTP_400_BAD_REQUEST)
 
 
 class SessionAttendingView(generics.ListAPIView):
