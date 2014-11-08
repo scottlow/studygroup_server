@@ -27,7 +27,8 @@ class Student(AbstractUser):
     FOURTH_YEAR = 4
     FIFTH_YEAR = 5
     SIXTH_YEAR = 6
-    SEVENTH_YEAR = 7   
+    SEVENTH_YEAR = 7
+    OTHER_YEAR = 8 
     YEARS_OF_STUDY = (
         (FIRST_YEAR, 'First Year'),
         (SECOND_YEAR, 'Second Year'),
@@ -36,6 +37,7 @@ class Student(AbstractUser):
         (FIFTH_YEAR, 'Fifth Year'),
         (SIXTH_YEAR, 'Sixth Year'),
         (SEVENTH_YEAR, 'Seventh Year'),
+        (OTHER_YEAR, 'Other'),
     )
 
     OTHER = 'OT'    
@@ -46,7 +48,7 @@ class Student(AbstractUser):
     LEVELS_OF_STUDY = (
         (UNDERGRADUATE, 'Undergraduate'),
         (MASTERS, 'Masters'),
-        (PHD, 'PHD'),
+        (PHD, 'PhD'),
         (OTHER, 'Other'),
     )
 
