@@ -7,6 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.views import obtain_auth_token, Token
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.views.generic import ListView, DetailView, FormView
 
 import server.serializers
 
@@ -484,3 +485,9 @@ class SessionUpdateView(mixins.UpdateModelMixin, GenericAPIView):
                 logger.debug("Tried to update Session with id {}, but could "
                              "not find it.".format(session_id))
         raise Http404
+    
+class XMPPView(DetailView):
+    """View for the XMPP chat """
+    #model = Room
+    #context_object_name = 'room'
+    template_name = "chatrooms/xmpp.html"

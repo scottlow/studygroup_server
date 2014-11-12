@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'corsheaders',   
     'debug_toolbar',
-    'typedmodels'
+    'typedmodels',
+    'conversejs',
 )
 
 REST_FRAMEWORK = {
@@ -72,6 +73,8 @@ ROOT_URLCONF = 'studygroup_server.urls'
 
 WSGI_APPLICATION = 'studygroup_server.wsgi.application'
 
+CONVERSEJS_BOSH_SERVICE_URL = 'https://localhost/'
+CONVERSEJS_AUTO_REGISTER = 'localhost'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

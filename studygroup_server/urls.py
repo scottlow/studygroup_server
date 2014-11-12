@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url, include
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework import routers
 from server import views
 
@@ -28,4 +29,7 @@ urlpatterns = patterns('',
     url(r'^sessions/edit/?$', views.SessionUpdateView.as_view()),
 
     url(r'^sessions/university/(?P<universityID>.+)/?$', views.SessionByUniversityView.as_view()),
+    url(r'^xmpp/$',views.XMPPView.as_view()),
 )
+
+urlpatterns += staticfiles_urlpatterns()
