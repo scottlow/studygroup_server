@@ -49,32 +49,48 @@ REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES' : (
     #     'rest_framework.renderers.JSONRenderer',
     #     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),   
     'TEST_REQUEST_DEFAULT_FORMAT' : 'json',
     'TEST_REQUEST_RENDERER_CLASSES' : (
         'rest_framework.renderers.JSNORenderer',
-    ) 
+    ), 
 }
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    'django.core.context_processors.request',
+    'django.core.context_processors.csrf',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = None
+CORS_ORIGIN_WHITELIST = ()
+
 
 ROOT_URLCONF = 'studygroup_server.urls'
 
 WSGI_APPLICATION = 'studygroup_server.wsgi.application'
 
-CONVERSEJS_BOSH_SERVICE_URL = 'https://localhost/'
-CONVERSEJS_AUTO_REGISTER = 'localhost'
+CONVERSEJS_BOSH_SERVICE_URL = 'http://localhost:5280/http-bind'
+CONVERSEJS_AUTO_REGISTER = 'localhost' #127.0.0.1'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

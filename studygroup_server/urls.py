@@ -29,7 +29,7 @@ urlpatterns = patterns('',
     url(r'^sessions/edit/?$', views.SessionUpdateView.as_view()),
 
     url(r'^sessions/university/(?P<universityID>.+)/?$', views.SessionByUniversityView.as_view()),
-    url(r'^xmpp/$',views.XMPPView.as_view()),
+    url(r'^xmppchat/$',views.XMPPView),
 )
 
 urlpatterns += staticfiles_urlpatterns()

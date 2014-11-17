@@ -1,16 +1,19 @@
 from rest_framework import generics, status, viewsets, mixins
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.authtoken.views import obtain_auth_token, Token
 from server.models import Course, Student, University, Session, Location, onCampusSession, offCampusSession
 from django.http import HttpResponse, HttpResponseServerError, Http404
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import AllowAny
-from rest_framework.authtoken.views import obtain_auth_token, Token
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from django.views.generic import ListView, DetailView, FormView
-
+from django.conf import settings
+from django.template import Context, loader
+from django import template
+from conversejs.boshclient import BOSHClient 
+import conversejs.utils
 import server.serializers
-
 import logging
 
 logger = logging.getLogger(__name__)
@@ -486,8 +489,23 @@ class SessionUpdateView(mixins.UpdateModelMixin, GenericAPIView):
                              "not find it.".format(session_id))
         raise Http404
     
-class XMPPView(DetailView):
-    """View for the XMPP chat """
-    #model = Room
-    #context_object_name = 'room'
-    template_name = "chatrooms/xmpp.html"
+@api_view(['GET'])
+@authentication_classes((BasicAuthentication, TokenAuthentication,))
+@permission_classes((IsAuthenticated,))
+def XMPPView(request):
+    print "request: ", request.user, request.user.pk, request.user.username, request.user.is_active
+    context = Context({
+        'request': request
+    }) 
+    
+    t = loader.get_template("chatrooms/xmpp.html")
+    c = conversejs.utils.get_conversejs_context(context, True)
+    
+    return HttpResponse(t.render(c))
+    
+""" @permission_classes((IsAuthenticated,)) 
+    #BOSH_SERVICE = getattr(settings, 'CONVERSEJS_BOSH_SERVICE_URL')
+    #JABBERID = context.request.user.username + '@' + getattr(settings, 'CONVERSEJS_AUTO_REGISTER')   
+    #bc = BOSHClient(JABBERID, context.request.user.password, BOSH_SERVICE)
+    #bc.connection() 
+    """

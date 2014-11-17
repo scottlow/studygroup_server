@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from typedmodels import TypedModel
+from conversejs.models import XMPPAccount
 
 class University(models.Model):
     name = models.CharField(max_length=100);
@@ -69,6 +70,7 @@ class Student(AbstractUser):
     courses = models.ManyToManyField(Course, related_name="courses")
     active_courses = models.ManyToManyField(Course, related_name="active_courses")
     university = models.ForeignKey(University, related_name="university")
+    xmpp_chat = models.ForeignKey(XMPPAccount, related_name="xmpp_chat", null=True, blank=True)
 
     def get_year_display(self):
         for year in self.YEARS_OF_STUDY:
