@@ -14,7 +14,7 @@ from django import template
 from conversejs.boshclient import BOSHClient 
 import conversejs.utils
 import server.serializers
-import logging
+import logging, json
 
 logger = logging.getLogger(__name__)
 
@@ -498,10 +498,36 @@ def XMPPView(request):
         'request': request
     }) 
     
-    t = loader.get_template("chatrooms/xmpp.html")
+    #t = loader.get_template("chatrooms/xmpp.html")
     c = conversejs.utils.get_conversejs_context(context, True)
+    #print "context: ", c
     
-    return HttpResponse(t.render(c))
+    response_data = {}
+    for arr in c:
+        if arr.has_key('CONVERSEJS_AUTO_LIST_ROOMS'):
+            response_data['auto_list_rooms'] = arr['CONVERSEJS_AUTO_LIST_ROOMS']
+            
+        if arr.has_key('CONVERSEJS_SHOW_ONLY_ONLINE_USERS'):
+            response_data['show_only_online_users'] = arr['CONVERSEJS_SHOW_ONLY_ONLINE_USERS']
+            
+        if arr.has_key('CONVERSEJS_BOSH_SERVICE_URL'):
+            response_data['bosh_service_url'] = arr['CONVERSEJS_BOSH_SERVICE_URL']
+            
+        if arr.has_key('CONVERSEJS_XHR_USER_SEARCH'):
+            response_data['xhr_user_search'] = arr['CONVERSEJS_XHR_USER_SEARCH']
+            
+        if arr.has_key('CONVERSEJS_HIDE_MUC_SERVER'):
+            response_data['hide_muc_server'] = arr['CONVERSEJS_HIDE_MUC_SERVER']
+            
+        if arr.has_key('jid'):
+            response_data['jid'] = arr['jid']
+        if arr.has_key('rid'):
+            response_data['rid'] = arr['rid']
+        if arr.has_key('sid'):
+            response_data['sid'] = arr['sid']
+    #print "data: ", response_data
+    
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
     
 """ @permission_classes((IsAuthenticated,)) 
     #BOSH_SERVICE = getattr(settings, 'CONVERSEJS_BOSH_SERVICE_URL')
