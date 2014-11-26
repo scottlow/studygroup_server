@@ -77,12 +77,16 @@ WSGI_APPLICATION = 'studygroup_server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'guzelow',
-        'USER': 'guzelow',
-        'PASSWORD': 'Study4l!fe',
-        'HOST': 'guzelow.db.10377017.hostedresource.com',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'guzelow',
+    #     'USER': 'guzelow',
+    #     'PASSWORD': 'Study4l!fe',
+    #     'HOST': 'guzelow.db.10377017.hostedresource.com',
+    # }
 }
 
 # Internationalization

@@ -72,6 +72,16 @@ class UpdateProfileView(generics.CreateAPIView):
                 student.email = serializer.init_data['email']
             if('name' in request.DATA.keys()):
                 student.first_name = serializer.init_data['name']
+            if('program' in request.DATA.keys()):
+                student.program = serializer.init_data['program']
+            if('learning_style' in request.DATA.keys()):
+                student.learning_style = serializer.init_data['learning_style']
+            if('year_of_study' in request.DATA.keys()):
+                student.year_of_study = serializer.init_data['year_of_study']
+            if('about_me' in request.DATA.keys()):
+                student.about_me = serializer.init_data['about_me']
+            if('level_of_study' in request.DATA.keys()):
+                student.level_of_study = serializer.init_data['level_of_study']                                                                   
             student.save()
             return HttpResponse("success") 
         else:
@@ -116,6 +126,10 @@ class RegisterUserView(generics.CreateAPIView):
                         student.active_courses.add(course_to_add)
 
             student.first_name = serializer.init_data['name']
+            student.program = serializer.init_data['program']
+            student.level_of_study = serializer.init_data['level_of_study']
+            student.year_of_study = serializer.init_data['year_of_study']
+            student.learning_style = serializer.init_data['learning_style']
             student.save()
             token, created = Token.objects.get_or_create(user=student)
             return Response(data={'token':token.key}, status=200)
