@@ -90,7 +90,7 @@ ROOT_URLCONF = 'studygroup_server.urls'
 WSGI_APPLICATION = 'studygroup_server.wsgi.application'
 
 CONVERSEJS_BOSH_SERVICE_URL = 'http://localhost:5280/http-bind'
-CONVERSEJS_AUTO_REGISTER = 'localhost' #127.0.0.1'
+CONVERSEJS_AUTO_REGISTER = '127.0.0.1' #127.0.0.1'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

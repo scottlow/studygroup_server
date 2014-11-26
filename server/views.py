@@ -518,6 +518,9 @@ def XMPPView(request):
             
         if arr.has_key('CONVERSEJS_HIDE_MUC_SERVER'):
             response_data['hide_muc_server'] = arr['CONVERSEJS_HIDE_MUC_SERVER']
+        
+        if arr.has_key('CONVERSEJS_PREBIND'):
+            response_data['prebind'] = arr['CONVERSEJS_PREBIND']
             
         if arr.has_key('jid'):
             response_data['jid'] = arr['jid']
