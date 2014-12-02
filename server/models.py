@@ -15,8 +15,8 @@ class University(models.Model):
 class Course(models.Model):
     university = models.ForeignKey(University)
     name = models.CharField(max_length=100)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
 
     def __unicode__(self):
         return self.name    
